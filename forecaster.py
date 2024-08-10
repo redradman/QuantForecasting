@@ -7,32 +7,29 @@ import torch
 from chronos import ChronosPipeline
 
 
-# create the pipline
-# pipeline = ChronosPipeline.from_pretrained(
-#   "amazon/chronos-t5-base",
-#   device_map="auto",
-#   torch_dtype=torch.bfloat16,
-# )
-
-
+########################### Object model 
+########################################
 class ChronosModel:
     """ 
     a form of intializing chronos models that is very easy to initialize
     
-    
-    
-    
+    ############## VARIABLES, init inputs
+    1. model: string = must be one of the keys of MODEL_TYPES
+    2. df: Pandas.DataFrame= a dataframe in pandas
+    3. column: String = A column in the df containing values of interest
+    4. prediction_length: int = Number of intervals to be calculated
+    5. reserve: bool = used for internal comparison. If true the predicted length will be the last n 
+                        values of the given column (used for contrast between sim and real values). 
+                        If false generates points into the future.
+    ##############                
     """
     
     # class constants 
-    
     MODEL_TYPES = {"tiny": "amazon/chronos-t5-tiny", 
                    "mini": "amazon/chronos-t5-mini", 
                    "small" : "amazon/chronos-t5-small", 
                    "base" : "amazon/chronos-t5-base", 
                    "large": "amazon/chronos-t5-large"}
-    
-    
     
     #############################################
     def __init__(self, model: str, df, column, prediction_length: int, reserve: bool):
